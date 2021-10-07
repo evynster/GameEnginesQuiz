@@ -1,9 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class CreateLevel : MonoBehaviour
 {
+    /*
+     * This is our DLL import
+     */
+    [DllImport("EnginesQuizDLL")] 
+    private static extern Vector2Int generateRoomSize(int minSize, int maxSize);
+    //THIS DOES NOT WORK
+    //[DllImport("EnginesQuizDLL")]
+    //private static extern string generateRandomDungeon(int sizeX, int sizeY, int minRoom, int maxRoom, int minSize, int maxSize);
 
     public static event System.Action generateAction;
 
@@ -38,7 +47,7 @@ public class CreateLevel : MonoBehaviour
     }
 
     private int minRooms = 30;
-    private int maxRooms = 300;
+    private int maxRooms = 100;
 
     private int minRoomSize = 5;
     private int maxRoomSize = 12;//these variables let us change generation functionality easily
@@ -59,6 +68,8 @@ public class CreateLevel : MonoBehaviour
 
         int roomCount = Random.Range(minRooms,maxRooms);//get a count for how many rooms to make
 
+        //THIS DOES NOT WORK
+        //Debug.Log(generateRandomDungeon(levelBaseData.GetLength(0), levelBaseData.GetLength(1),minRooms,maxRooms,minRoomSize,maxRoomSize));
         rooms = new List<Room>();
 
         for (int i = 0; i < roomCount; i++){
@@ -85,7 +96,12 @@ public class CreateLevel : MonoBehaviour
     private void createRoom()
     {
         Room tempRoom = new Room();
-        tempRoom.size = new Vector2(Random.Range(minRoomSize,maxRoomSize),Random.Range(minRoomSize, maxRoomSize));
+        /*
+         * this uses the dll
+         */
+        tempRoom.size = generateRoomSize(minRoomSize, maxRoomSize);
+
+
         tempRoom = PlaceRoom(tempRoom);
 
         for(int i = 0; i < tempRoom.size.x; i++)
