@@ -10,6 +10,9 @@ public class CreateLevel : MonoBehaviour
      */
     [DllImport("EnginesQuizDLL")] 
     private static extern Vector2Int generateRoomSize(int minSize, int maxSize);
+
+    [DllImport("EnginesQuizDLL")]
+    private static extern Vector2Int generateRoomPos(int minPos, int maxPosX, int maxPosY);
     //THIS DOES NOT WORK
     //[DllImport("EnginesQuizDLL")]
     //private static extern string generateRandomDungeon(int sizeX, int sizeY, int minRoom, int maxRoom, int minSize, int maxSize);
@@ -122,7 +125,8 @@ public class CreateLevel : MonoBehaviour
         }
         else
         {
-            room.pos = new Vector2(Random.Range(0, levelBaseData.GetLength(0) - room.size.x), Random.Range(0, levelBaseData.GetLength(1) - room.size.y));
+            
+            room.pos = generateRoomPos(0, levelBaseData.GetLength(0) - (int)room.size.x, levelBaseData.GetLength(0) - (int)room.size.y);
         }
         if(emergeCounter>=50)
         {

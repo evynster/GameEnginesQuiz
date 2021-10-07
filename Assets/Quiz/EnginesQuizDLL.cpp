@@ -1,4 +1,4 @@
-//Brouwer Evyn 100702629
+//Brouwer, Evyn 100702628
 #define EXPORT_API __declspec(dllexport)
 
 #include <String>
@@ -13,6 +13,12 @@ extern "C"
 		Vector2Int data;
 		data.x = rand()%(maxSize-minSize)+minSize;
 		data.y = rand() % (maxSize - minSize) + minSize;
+		return data;
+	}
+	Vector2Int EXPORT_API generateRoomPos(int minPos, int maxPosX, int maxPosY) {
+		Vector2Int data;
+		data.x = rand() % (maxPosX - minPos) + minPos;
+		data.y = rand() % (maxPosY - minPos) + minPos;
 		return data;
 	}
 
